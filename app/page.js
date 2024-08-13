@@ -4,7 +4,8 @@ import {
   Typography, 
   Box, 
   Grid,
-  Stack
+  Select,
+  MenuItem,
 } from '@mui/material';
 
 import SmartToyIcon from '@mui/icons-material/SmartToy';
@@ -21,11 +22,10 @@ import { useState, useEffect } from 'react';
 
 export default function Home() {
 
-  const [conversations, setConversations] = useState([]);
   const [messageLog, setMessageLog] = useState([{}]);
   const [outgoingMessage, setOutgoingMessage] = useState({ isHuman: true, msg: ''});
   const [waitingOnResponse, setWaitingOnResponse] = useState(false);
-  const [activeMessageLog, setActiveMessageLog] = useState(null);
+  const [selectedLanguage, setSelectedLanguage] = useState("English");
 
   const sendToApi = async (e) => {
     e.preventDefault();
@@ -122,6 +122,23 @@ export default function Home() {
                 <form>
                     <label htmlFor="chat" className="sr-only">Your message</label>
                     <div className="flex justify-center items-center px-3 py-2 bg-slate-400">
+                        <Select
+                          value={selectedLanguage}
+                          label="Language"
+                          onChange={(e) => setSelectedLanguage(e.target.value)}
+                          size="small"
+                        >
+                          <MenuItem color="white" value="English">English</MenuItem>
+                          <MenuItem value="Spanish">Spanish</MenuItem>
+                          <MenuItem value="Mandarin">Mandarin</MenuItem>
+                          <MenuItem value="Hindi">Hindi</MenuItem>
+                          <MenuItem value="Russian">Russian</MenuItem>
+                          <MenuItem value="Arabic">Arabic</MenuItem>
+                          <MenuItem value="French">French</MenuItem>
+                          <MenuItem value="German">German</MenuItem>
+                          <MenuItem value="Japanese">Japanese</MenuItem>
+                          <MenuItem value="Portuguese">Portuguese</MenuItem>
+                        </Select>
                         <input 
                           id="chat"
                           rows="1"
