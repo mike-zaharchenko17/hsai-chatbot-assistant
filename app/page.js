@@ -12,6 +12,7 @@ import SendIcon from '@mui/icons-material/Send';
 
 import MuiNavbar from '../components/MuiNavbar.js';
 import ChatBubble from '../components/ChatBubble.js';
+import ChatIcon from '@mui/icons-material/Chat';
 
 import { LoadingButton } from '@mui/lab';
 
@@ -64,81 +65,40 @@ export default function Home() {
   return (
     <>
       <MuiNavbar />
-      <main className="flex min-h-screen flex-col Typographys-center justify-center p-24 bg-white">
+      <main className="flex min-h-screen flex-col Typographys-center p-24 bg-white">
         <Box
           component="div"
           sx={{
-            width:"100%",
-            height:"80vh",
+            height:"72vh",
             bgcolor:"#cbd5e1",
             borderRadius:2,
           }}
         >
           <Grid 
             container 
-            spacing={2}
-            padding={2}
           >
             <Grid 
-              height="72vh" 
               item 
-              xs={4}
-              sx={{
-                bgcolor: '#708090'
-              }}
+              xs={12}
             >
-              <Typography 
-                color='secondary'
-                p={4}
-              >
-                History Tab
-              </Typography>
-              <Stack
-                className="no-scrollbar"
-                direction='column'
-                justifyContent='flex-start'
-                alignItems='flex-start'
-                spacing={2}  
-                sx={{
-                  overflow: 'auto',
-                  height: "60vh",
-                  padding: 2,
-                }}
-              >
-                <Typography color='secondary'>
-                  Message History 1
-                </Typography>
-                <Typography color='secondary'>
-                  Message History 2
-                </Typography>
-                <Typography color='secondary'>
-                  Message History 3
-                </Typography>
-              </Stack>
-            </Grid>
-            <Grid 
-              item 
-              xs={8}
-            >
-              <Box display='flex' justifyContent='flex-start' alignItems='center'>
+              <Box display='flex' justifyContent='flex-start' alignItems='center' px={4}>
                 <SmartToyIcon 
                   color="secondary" 
                   fontSize="large"
-                  sx={{visbility: { sm: 'hidden'}}} 
+                  sx={{ visbility: { sm: 'hidden'} }} 
                 />
                 <Typography
                   color="secondary" 
                   py={3} px={4}
                   sx={{ typography: { sm: 'h5', xs: 'h7' } }}
                 >
-                  AI Assistant
+                  Chat with AI Assistant
                 </Typography>
               </Box>     
               <Box
                 className="no-scrollbar"
                 sx={{
                   overflow: 'auto', // Enable scrolling if content overflows
-                  padding: 2,
                   height: "60vh"
                 }}
               >
@@ -152,7 +112,6 @@ export default function Home() {
           </Grid>
             <Grid 
               container
-              spacing={1} 
               justifyContent="center"
               alignItems="center"
             >
@@ -162,7 +121,7 @@ export default function Home() {
               >
                 <form>
                     <label htmlFor="chat" className="sr-only">Your message</label>
-                    <div className="flex justify-end items-center px-3 py-2 bg-slate-400">
+                    <div className="flex justify-center items-center px-3 py-2 bg-slate-400">
                         <input 
                           id="chat"
                           rows="1"

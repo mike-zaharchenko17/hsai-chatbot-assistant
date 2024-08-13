@@ -7,6 +7,7 @@ const ChatBubble = ({ message, isHuman }) => {
           display: 'flex',
           justifyContent: isHuman ? 'flex-end' : 'flex-start',
           mb: 2, // Adds margin between bubbles
+          mx: 5,
         }}
       >
         <Box
