@@ -12,7 +12,7 @@ const ChatBubble = ({ message, isHuman }) => {
       >
         <Box
           sx={{
-            maxWidth: '60%',
+            maxWidth: { xs: '95%', sm: '60%' },
             bgcolor: isHuman ? 'primary.main' : 'grey.300',
             color: isHuman ? 'white' : 'black',
             p: 2,

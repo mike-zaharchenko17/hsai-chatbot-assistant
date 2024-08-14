@@ -23,9 +23,8 @@ import { useState, useEffect } from 'react';
 export default function Home() {
 
   const [messageLog, setMessageLog] = useState([{}]);
-  const [outgoingMessage, setOutgoingMessage] = useState({ isHuman: true, msg: ''});
+  const [outgoingMessage, setOutgoingMessage] = useState({ isHuman: true, msg: '', selectedLanguage: 'English'});
   const [waitingOnResponse, setWaitingOnResponse] = useState(false);
-  const [selectedLanguage, setSelectedLanguage] = useState("English");
 
   const sendToApi = async (e) => {
     e.preventDefault();
@@ -64,108 +63,129 @@ export default function Home() {
 
   return (
     <>
-      <MuiNavbar />
-      <main className="flex min-h-screen flex-col Typographys-center p-24 bg-white">
-        <Box
-          component="div"
+    <MuiNavbar />
+    <main className="flex min-h-screen flex-col items-center p-24 bg-white">
+      <Box
+        component="div"
+        sx={{
+          height: "72vh",
+          bgcolor: "#cbd5e1",
+          borderRadius: 2,
+          position: 'relative',
+          width: { xs: '100%', sm: '90%' },
+          '@media (max-width: 600px)': {
+            height: "58vh",
+          },
+        }}
+      >
+        <Grid container>
+          <Grid item xs={12}>
+            <Box display='flex' justifyContent='flex-start' alignItems='center' px={4}>
+              <SmartToyIcon 
+                color="secondary" 
+                fontSize="large"
+              />
+              <Typography
+                color="secondary" 
+                py={3} px={4}
+                sx={{ typography: { sm: 'h5', xs: 'h7' } }}
+              >
+                Chat with AI Assistant
+              </Typography>
+            </Box>     
+            <Box
+              className="no-scrollbar"
+              sx={{
+                overflow: 'auto',
+                height: "calc(72vh - 120px)", 
+                position: 'relative', 
+                '@media (max-width: 600px)': {
+                  height: "calc(58vh - 120px)",
+                },
+              }}
+            >
+              {messageLog.map((item, index) => (
+                (index > 0) ? 
+                  <ChatBubble key={index} message={item.msg} isHuman={item.isHuman} />
+                  : null
+              ))}
+            </Box>
+          </Grid>
+        </Grid>
+        <Grid 
+          container
+          justifyContent="center"
+          alignItems="center"
           sx={{
-            height:"72vh",
-            bgcolor:"#cbd5e1",
-            borderRadius:2,
+            position: 'relative',
+            top: 'auto',
           }}
         >
-          <Grid 
-            container 
-          >
-            <Grid 
-              item 
-              xs={12}
-            >
-              <Box display='flex' justifyContent='flex-start' alignItems='center' px={4}>
-                <SmartToyIcon 
-                  color="secondary" 
-                  fontSize="large"
-                  sx={{ visbility: { sm: 'hidden'} }} 
-                />
-                <Typography
-                  color="secondary" 
-                  py={3} px={4}
-                  sx={{ typography: { sm: 'h5', xs: 'h7' } }}
+          <Grid item xs={12}>
+            <form>
+              <label htmlFor="chat" className="sr-only">Your message</label>
+              <Box 
+                display="flex" 
+                flexDirection={{ xs: 'column', sm: 'row' }} // Stack on small screens
+                justifyContent="center" 
+                alignItems="center" 
+                px={3} py={2} 
+                gap={{ xs: 2, sm: 0 }}
+                sx={{ backgroundColor: 'slategray' }
+              }>
+                <Select
+                  value={outgoingMessage.selectedLanguage}
+                  label="Language"
+                  onChange={(e) => setOutgoingMessage({ ...outgoingMessage, selectedLanguage: e.target.value })}
+                  size="small"
+                  sx={{
+                    borderRadius: 0,
+                    "& .MuiOutlinedInput-notchedOutline": {
+                      border: 0
+                    },
+                    "&.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                      border: "none"
+                    },
+                    width: { xs: '100%', sm: 'auto' }
+                  }}
                 >
-                  Chat with AI Assistant
-                </Typography>
-              </Box>     
-              <Box
-                className="no-scrollbar"
-                sx={{
-                  overflow: 'auto', // Enable scrolling if content overflows
-                  height: "60vh"
-                }}
-              >
-                {messageLog.map((item, index) => (
-                  (index > 0) ? 
-                    <ChatBubble message={item.msg} isHuman={item.isHuman} />
-                    : null
-                ))}
+                  <MenuItem value="English">English</MenuItem>
+                  <MenuItem value="Spanish">Spanish</MenuItem>
+                  <MenuItem value="Mandarin">Mandarin</MenuItem>
+                  <MenuItem value="Russian">Russian</MenuItem>
+                  <MenuItem value="Hindi">Hindi</MenuItem>
+                  <MenuItem value="French">French</MenuItem>
+                  <MenuItem value="Portuguese">Portuguese</MenuItem>
+                  <MenuItem value="Arabic">Arabic</MenuItem>
+                </Select>
+
+                <input 
+                  id="chat"
+                  rows="1"
+                  value={outgoingMessage.msg}
+                  className="block mx-4 p-2.5 w-full sm:w-7/12 text-sm text-gray-900 bg-white rounded-lg border border-gray-300"
+                  placeholder="Your message..."
+                  onChange={(e) => setOutgoingMessage({ ...outgoingMessage, msg: e.target.value })}
+                />
+
+                <LoadingButton
+                  size="small"
+                  color="secondary"
+                  onClick={(e) => sendToApi(e)}
+                  loading={waitingOnResponse}
+                  loadingPosition="start"
+                  startIcon={<SendIcon />}
+                  variant="contained"
+                >
+                  <span>Send</span>
+                  <span className="sr-only">Send Message</span>
+                </LoadingButton>
               </Box>
-            </Grid>
+            </form>
           </Grid>
-            <Grid 
-              container
-              justifyContent="center"
-              alignItems="center"
-            >
-              <Grid 
-                item 
-                xs={12}
-              >
-                <form>
-                    <label htmlFor="chat" className="sr-only">Your message</label>
-                    <div className="flex justify-center items-center px-3 py-2 bg-slate-400">
-                        <Select
-                          value={selectedLanguage}
-                          label="Language"
-                          onChange={(e) => setSelectedLanguage(e.target.value)}
-                          size="small"
-                        >
-                          <MenuItem color="white" value="English">English</MenuItem>
-                          <MenuItem value="Spanish">Spanish</MenuItem>
-                          <MenuItem value="Mandarin">Mandarin</MenuItem>
-                          <MenuItem value="Hindi">Hindi</MenuItem>
-                          <MenuItem value="Russian">Russian</MenuItem>
-                          <MenuItem value="Arabic">Arabic</MenuItem>
-                          <MenuItem value="French">French</MenuItem>
-                          <MenuItem value="German">German</MenuItem>
-                          <MenuItem value="Japanese">Japanese</MenuItem>
-                          <MenuItem value="Portuguese">Portuguese</MenuItem>
-                        </Select>
-                        <input 
-                          id="chat"
-                          rows="1"
-                          value={outgoingMessage.msg}
-                          className="block mx-4 p-2.5 w-7/12 text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                          placeholder="Your message..."
-                          onChange={(e) => setOutgoingMessage({...outgoingMessage, msg: e.target.value})}
-                        >
-                        </input>
-                        <LoadingButton
-                          size="small"
-                          color="secondary"
-                          onClick={(e) => sendToApi(e)}
-                          loading={waitingOnResponse}
-                          loadingPosition="start"
-                          startIcon={<SendIcon />}
-                          variant="contained"
-                        >
-                          <span>Send</span>
-                          <span className="sr-only">Send Message</span>
-                      </LoadingButton>
-                    </div>
-                </form>
-              </Grid>
-          </Grid>
-        </Box>
-      </main>
-    </>
+        </Grid>
+      </Box>
+    </main>
+  </>
   );
 }

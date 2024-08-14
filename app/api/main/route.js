@@ -5,6 +5,8 @@ export async function POST(request) {
     const req = await request.json();
 
     const receivedMessage = req.msg;
+    const responseLang = req.selectedLanguage;
+
     console.log(`Api successfully called with message ${receivedMessage}`);
     
     const response = await openAiClient.chat.completions.create({
@@ -12,7 +14,7 @@ export async function POST(request) {
         messages: [
             {
                 role: "system",
-                content: "You are a helpful assistant"
+                content: `You are a helpful assistant. Please answer in ${responseLang} regardless of what language the question is in.`
             },
             {
                 role: "user",
